@@ -1,0 +1,39 @@
+InlineAttachment
+================
+
+This plugin lets you include images in your email. Taken from
+http://dev.rubyonrails.org/ticket/2179
+
+Example
+=======
+
+# app/models/notifier.rb
+class Notifier < ActionMailer::Base
+  def activation_instructions(user)
+    subject      "Account activation instructions"
+    from         "noreply@domain.com"
+    recipients   user.email
+    sent_on      Time.now
+    content_type 'multipart/related; type=text/html'
+
+    part :content_type => "text/html",
+    :body => render_message('activation_instructions', :account_activation_url => register_url(user.perishable_token), :user => user)
+
+    inline_attachment :content_type => "image/png",
+    :body => File.read("#{RAILS_ROOT}/public/images/email.png"),
+    :filename => "email.png",
+    :cid => "<email@domain.com>"
+  end
+end
+
+# app/views/notifier/activation_instructions.html.erb
+<img src="cid:email@domain.com" border="none"/>
+
+<h1>Welcome <%= @user %></h1>
+
+<p>
+  Please verify your identify by clicking the link below:
+  <%= link_to @account_activation_url, @account_activation_url %>
+</p>
+
+<p>Good luck!</p>
