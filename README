@@ -1,8 +1,11 @@
 InlineAttachment
 ================
 
-This plugin lets you include images in your email. Taken from
+This plugin lets you include inline images in emails. Taken from:
 http://dev.rubyonrails.org/ticket/2179
+
+Also, check out http://github.com/JasonKing/inline_attachment for
+another great way to attach inline images in html emails.
 
 Example
 =======
